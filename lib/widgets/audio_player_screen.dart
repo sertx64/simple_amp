@@ -19,10 +19,6 @@ class AudioPlayerScreen extends StatelessWidget {
           body: Column(
             children: [
               const PlayerControls(),
-              ElevatedButton(
-                onPressed: () => context.read<AudioCubit>().pickDirectory(),
-                child: const Text('Выбрать папку'),
-              ),
               const Expanded(
                 child: AudioFilesList(),
               ),

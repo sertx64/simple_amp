@@ -49,6 +49,22 @@ class AudioCubit extends Cubit<AudioState> {
     await playFile(nextFile);
   }
 
+  Future<void> playPreviousFile() async {
+    if (state.audioFiles.isEmpty) return;
+
+    final currentIndex = state.audioFiles.indexOf(state.filePath ?? '');
+    if (currentIndex == -1) return;
+
+    final previousIndex = (currentIndex - 1 + state.audioFiles.length) % state.audioFiles.length;
+    final previousFile = state.audioFiles[previousIndex];
+
+    await playFile(previousFile);
+  }
+
+  Future<void> playNextFile() async {
+    await _playNextFile();
+  }
+
   Future<void> pickDirectory() async {
     if (!await PermissionUtil.requestStoragePermission()) return;
     

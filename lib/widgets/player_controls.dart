@@ -11,7 +11,6 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AudioCubit, AudioState>(
       builder: (context, state) {
-        final color = Theme.of(context).primaryColor;
         final isPlaying = state.playerState == PlayerState.playing;
         final isPaused = state.playerState == PlayerState.paused;
 
@@ -22,25 +21,39 @@ class PlayerControls extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
+                  key: const Key('previous_button'),
+                  onPressed: state.audioFiles.isNotEmpty ? () => context.read<AudioCubit>().playPreviousFile() : null,
+                  iconSize: 48.0,
+                  icon: const Icon(Icons.skip_previous),
+                  color: Colors.black,
+                ),
+                IconButton(
                   key: const Key('play_button'),
                   onPressed: isPlaying ? null : () => context.read<AudioCubit>().play(),
                   iconSize: 48.0,
                   icon: const Icon(Icons.play_arrow),
-                  color: color,
+                  color: Colors.green,
                 ),
                 IconButton(
                   key: const Key('pause_button'),
                   onPressed: isPlaying ? () => context.read<AudioCubit>().pause() : null,
                   iconSize: 48.0,
                   icon: const Icon(Icons.pause),
-                  color: color,
+                  color: Colors.blue,
                 ),
                 IconButton(
                   key: const Key('stop_button'),
                   onPressed: (isPlaying || isPaused) ? () => context.read<AudioCubit>().stop() : null,
                   iconSize: 48.0,
                   icon: const Icon(Icons.stop),
-                  color: color,
+                  color: Colors.red,
+                ),
+                IconButton(
+                  key: const Key('next_button'),
+                  onPressed: state.audioFiles.isNotEmpty ? () => context.read<AudioCubit>().playNextFile() : null,
+                  iconSize: 48.0,
+                  icon: const Icon(Icons.skip_next),
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -66,6 +79,10 @@ class PlayerControls extends StatelessWidget {
                       ? state.duration!.toString().split('.').first
                       : '',
               style: const TextStyle(fontSize: 16.0),
+            ),
+            ElevatedButton(
+              onPressed: () => context.read<AudioCubit>().pickDirectory(),
+              child: const Text('Выбрать папку'),
             ),
           ],
         );
