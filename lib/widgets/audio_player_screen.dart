@@ -14,7 +14,11 @@ class AudioPlayerScreen extends StatelessWidget {
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
-            title: const Text('Simple Amp'),
+            title: Text(
+                style: TextStyle(
+                  color: Colors.deepPurple[900],
+                ),
+                'Simple Amp'),
           ),
           body: Column(
             children: [

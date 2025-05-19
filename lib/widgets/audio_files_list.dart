@@ -35,40 +35,54 @@ class AudioFilesList extends StatelessWidget {
           );
         }
 
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Папка: ${state.selectedDirectory}',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.deepPurple[900]!,
+              width: 2.0,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: state.audioFiles.length,
-                itemBuilder: (context, index) {
-                  final filePath = state.audioFiles[index];
-                  final fileName = filePath.split('/').last;
-                  final isPlaying = filePath == state.filePath;
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Column(
+            children: [
+              Container(
+                color: Colors.deepPurple[900],
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Папка: ${state.selectedDirectory}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.audioFiles.length,
+                  itemBuilder: (context, index) {
+                    final filePath = state.audioFiles[index];
+                    final fileName = filePath.split('/').last;
+                    final isPlaying = filePath == state.filePath;
 
-                  return ListTile(
-                    title: Text(
-                      fileName,
-                      style: TextStyle(
-                        fontWeight: isPlaying ? FontWeight.bold : FontWeight.normal,
+                    return ListTile(
+                      title: Text(
+                        fileName,
+                        style: TextStyle(
+                          fontWeight: isPlaying ? FontWeight.bold : FontWeight.normal,
+                        ),
                       ),
-                    ),
-                    leading: Icon(
-                      isPlaying ? Icons.music_note : Icons.audio_file,
-                      color: isPlaying ? Theme.of(context).primaryColor : null,
-                    ),
-                    onTap: () => context.read<AudioCubit>().playFile(filePath),
-                  );
-                },
+                      leading: Icon(
+                        isPlaying ? Icons.music_note : Icons.audio_file,
+                        color: isPlaying ? Theme.of(context).primaryColor : null,
+                      ),
+                      onTap: () => context.read<AudioCubit>().playFile(filePath),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
